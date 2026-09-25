@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloomcraft</title>
+  <style>
+    :root {
+      --bg1: #dfeaff;
+      --bg2: #c6d8ff;
+      --panel: rgba(25, 30, 40, 0.82);
+      --accent: #87d37c;
+      --accent2: #f7d36c;
+      --text: #edf3ff;
+      --shadow: rgba(0,0,0,0.28);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: radial-gradient(circle at top, #ebf4ff 0%, #bdd7ff 35%, #8aa2d4 100%);
+      font-family: 'Courier New', monospace;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    #gameWrap {
+      position: relative;
+      width: min(1200px, 96vw);
+      height: min(720px, 86vh);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(24, 32, 52, 0.42);
+      border: 1px solid rgba(255,255,255,0.15);
+      background: linear-gradient(#bfe6ff, #e5f6ff 27%, #d8f3ff 100%);
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: transparent;
+      cursor: crosshair;
+      image-rendering: pixelated;
+    }
+
+    .hud-top-left {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      z-index: 10;
+      line-height: 1.6;
+    }
+
+    .hud-top-left strong { color: var(--accent2); }
+
+    .hotbar {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+
+    .hotbar-slot {
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .hotbar-slot:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: var(--accent);
+    }
+
+    .hotbar-slot.active {
+      background: rgba(135, 211, 124, 0.3);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(135, 211, 124, 0.4);
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+      font-size: 11px;
+      color: var(--accent);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .tooltip.show {
+      opacity: 1;
+    }
+
+    .stats {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      z-index: 10;
+      line-height: 1.6;
+    }
+
+    .stats strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div id="gameWrap">
+    <div class="hud-top-left">
+      <div><strong>Bloomcraft</strong></div>
+      <div>WASD / Arrows: Move</div>
+      <div>Space: Jump</div>
+      <div>LMB: Mine</div>
+      <div>RMB: Place</div>
+      <div>1-9: Select</div>
+    </div>
+
+    <div class="stats">
+      <div>FPS: <strong id="fps">60</strong></div>
+      <div>Pos: <strong id="pos">0, 0</strong></div>
+      <div>Blocks: <strong id="blocks">0</strong></div>
+    </div>
+
+    <div class="hotbar" id="hotbar"></div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <canvas id="game"></canvas>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
